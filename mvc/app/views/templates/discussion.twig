@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<title>Re-redit</title>
+	<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+	<script type="text/javascript" src="/assets/js/comment.js"></script>
+</head>
+<body>
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+		<a class="navbar-brand" href="/">
+			<img src="/assets/img/r.jpg" width="40" height="40">
+			Re-Redit
+		</a>
+		<ul class="navbar-nav">
+			<li class="nav-item">
+				<a class="nav-link" href="/home/">Home</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/top/">Leaderboard</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/new/">New</a>
+			</li>
+			<li class="nav-item">
+			{% if user == '' %}
+				<a class="nav-link" href="/login/">Sign in</a>
+			</li>
+			{% else %}
+				<a class="nav-link" href="/user/{{ user }}">Hi {{ user }}</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/logout/">Sign out</a>
+			</li>
+			{% endif %}
+		</ul>
+	</nav>
+	<div id="body" class="row">
+		<div class="col-sm-12">
+			<h3>{{ data['title'] }}</h3>
+			<a href="{{ data['url'] }}">{{ data['url'] }}</a><br>
+			{% if user != '' %}
+				{% if check == false %}
+					<a href="/likelink/{{ id }}">Like</a>
+				{% else %}
+					<a href="/unlikelink/{{ id }}">Unlike</a>
+				{% endif %}
+				({{ data['likes'] }})<br>
+			{% else %}
+				Likes: {{ data['likes'] }}<br>
+			{% endif %}
+			By: {{ data['author'] }}<br>
+			Tags: 
+			{% for tag in tags %}
+				<a href="/tag/{{ tag['tag'] }}">{{ tag['tag'] }}</a>,
+			{% endfor %}
+			<br>
+			<strong>Comments</strong>
+			{% if sort == 0 %}
+				(<a href="?sort=1">Sort by Likes</a>)
+			{% else %}
+				(<a href="?sort=0">Sort by Time</a>)
+			{% endif %}
+			<ul class="list-group">
+				{% if user != '' %}
+					{% for comment in comments %}
+						<li class="list-group-item">
+							<strong>{{ comment['author'] }}:</strong>
+							{{ comment['text'] }}<br>
+							{% if comment['liked'] == true %}
+								<a href="/unlikecomment/{{ comment['id'] }}/{{ id }}">Unlike</a>
+							{% else %}
+								<a href="/likecomment/{{ comment['id'] }}/{{ id }}">Like</a>
+							{% endif %}
+							( {{ comment['likes'] }} )
+							&emsp;&emsp;&emsp;&emsp;
+							<i>on {{ comment['time'] }}</i>
+						</li>
+					{% endfor %}
+				{% else %}
+					{% for comment in comments %}
+						<li class="list-group-item">
+							<strong>{{ comment['author'] }}:</strong>
+							{{ comment['text'] }}<br>
+							Likes: {{ comment['likes'] }}
+							&emsp;&emsp;&emsp;&emsp;
+							<i>on {{ comment['time'] }}</i>
+						</li>
+					{% endfor %}
+				{% endif %}
+			</ul>
+			<form class="form-inline" action="/comment/{{ id }}" method="post">
+				<input type="text" name="text" class="form-control" style="width:185vh">
+				<button class="btn">Submit</button>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

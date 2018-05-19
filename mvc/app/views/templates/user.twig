@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<title>Re-redit</title>
+	<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+</head>
+<body>
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+		<a class="navbar-brand" href="/">
+			<img src="/assets/img/r.jpg" width="40" height="40">
+			Re-Redit
+		</a>
+		<ul class="navbar-nav">
+			<li class="nav-item">
+				<a class="nav-link" href="/home">Home</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/top/">Leaderboard</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/new/">New</a>
+			</li>
+			<li class="nav-item">
+			{% if user == '' %}
+				<a class="nav-link" href="/login/">Sign in</a>
+			</li>
+			{% else %}
+				<a class="nav-link" href="#">Hi {{ user }}</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/logout/">Sign out</a>
+			</li>
+			{% endif %}
+		</ul>
+	</nav>
+	<div class="row" id="body">
+		<div class="col-sm-12">
+			<h3>{{ profile }}'s Profile</h3>
+			<p>Rating: {{ rating }}</p>
+			<p>Followers: {{ followers }}</p>
+			{% if check == true %}
+				<a href="/unfollow/{{ profile }}">Unfollow</a>
+			{% else %}
+				<a href="/follow/{{ profile }}">Follow</a>
+			{% endif %}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6">
+			<h4>Links By {{ profile }}</h4>
+			<ul class="list-group">
+				{% for post in posts|reverse %}
+					<li class="list-group-item">
+						<a href="{{ post['url'] }}">{{ post['title'] }}</a>
+						<br>
+						Ups: {{ post['likes'] }}
+						<a href="discuss/{{ post['id'] }}">Discussion</a>
+						Posted on : {{ post['time'] }}
+						By: {{ post['author'] }}
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="col-sm-6">
+			<h4>Comments by {{ profile }}</h4>
+			{% for comment in comments|reverse %}
+					<li class="list-group-item">
+						Commented: <i>{{ comment['text'] }}</i><br>
+						On <a href="/discuss/{{ comment['url_id'] }}">this</a> discussion <br>
+						On: {{ comment['time'] }}<br>
+						Ups: {{ comment['likes'] }}
+					</li>
+				{% endfor %}
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+    "name": "kanav/mvc-assignment",
+    "authors": [
+        {
+            "name": "kanav99",
+            "email": "kanav0610@gmail.com"
+        }
+    ],
+    "require": {
+    	"torophp/torophp": "dev-master",
+        "twig/twig": "~2.0"
+    },
+    "autoload": {
+        "classmap" : ["app"]
+    }
+}

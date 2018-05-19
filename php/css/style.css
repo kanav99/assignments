@@ -1,0 +1,49 @@
+body {
+	overflow-x: hidden;
+}
+#header {
+	height: 15vh;
+	background-color: black;
+}
+#header img {
+	height: 100%;
+}
+#account-nav {
+	position: absolute;
+	top: 40px;
+	right: 20px;
+}
+#paste {
+	padding-left: 40px;
+	padding-top: 15px;
+}
+#save-btn {
+	position: absolute;
+	right: 10px;
+}
+#recent {
+	padding-top: 15px;
+}
+h4 {
+	font-weight: normal;
+}
+ul {
+	overflow: scroll;
+	overflow-x: hidden;
+	height: 100%;
+}
+#main {
+	height: 78vh;
+}
+textarea {
+	resize: none;
+	font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+}
+#options {
+	padding-top: 5px;
+}
+#url {
+	position: absolute;
+	right: 15px;
+	top: 15px;
+}
